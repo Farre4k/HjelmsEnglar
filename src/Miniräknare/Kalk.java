@@ -87,8 +87,8 @@ public class Kalk {
 		
 		textOutput = new JTextField();
 		textOutput.setBorder(null);
-		textOutput.setForeground(Color.LIGHT_GRAY);
-		textOutput.setBackground(UIManager.getColor("Button.light"));
+		textOutput.setForeground(Color.WHITE);
+		textOutput.setBackground(Color.BLACK);
 		textOutput.setHorizontalAlignment(SwingConstants.RIGHT);
 		textOutput.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		textOutput.setColumns(10);
@@ -101,7 +101,8 @@ public class Kalk {
 		btnClear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				textField.setText(null);
+				textField.setText("");
+				textOutput.setText("");
 			}
 		});
 		btnClear.setForeground(new Color(255, 255, 255));
@@ -250,12 +251,27 @@ public class Kalk {
 		btn0.setBounds(12, 395, 123, 55);
 		frame.getContentPane().add(btn0);
 		
-		JButton btnDec = new JButton(",");
+		JButton btnDec = new JButton(".");
 		btnDec.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				String EnterNum = textField.getText() + btnDec.getText();
 				textField.setText(EnterNum);
+				
+				if (textField.getText().equals("")) {
+					textField.setText("0.");
+				}
+				
+				else if (textField.getText().contains(".")) {
+					btnDec.setEnabled(false);
+				}
+				
+				else {
+					String btnPin = textField.getText() + btnDec.getText();
+					textField.setText(btnPin);
+				}
+				
+				btnDec.setEnabled(true);
 				
 			}
 		});
@@ -272,6 +288,7 @@ public class Kalk {
 				firstNum = Double.parseDouble(textField.getText());
 				textField.setText("");
 				operations = "/";
+				textOutput.setText(firstNum + operations);
 			}
 		});
 		btnDiv.setForeground(new Color(255, 255, 255));
@@ -287,6 +304,7 @@ public class Kalk {
 				firstNum = Double.parseDouble(textField.getText());
 				textField.setText("");
 				operations = "*";
+				textOutput.setText(firstNum + operations);
 			}
 		});
 		btnMulti.setForeground(new Color(255, 255, 255));
@@ -302,6 +320,7 @@ public class Kalk {
 				firstNum = Double.parseDouble(textField.getText());
 				textField.setText("");
 				operations = "-";
+				textOutput.setText(firstNum + operations);
 			}
 		});
 		btnSub.setForeground(new Color(255, 255, 255));
@@ -317,7 +336,7 @@ public class Kalk {
 				firstNum = Double.parseDouble(textField.getText());
 				textField.setText("");
 				operations = "+";
-				
+				textOutput.setText(firstNum + operations);
 			}
 		});
 		btnAdd.setForeground(new Color(255, 255, 255));
@@ -331,12 +350,16 @@ public class Kalk {
 			public void actionPerformed(ActionEvent e) {
 				
 				secondNum = Double.parseDouble(textField.getText());
+				textOutput.setText("");
+				
 				
 				if (operations == "+") {
 					
 					result = firstNum + secondNum;
 					answer = String.valueOf(result);
 					textField.setText(answer);
+					
+					
 				}
 				
 				else if (operations == "-") {
